@@ -1,0 +1,29 @@
+<p>
+  test-propbinding works!
+</p>
+<div>
+  <!-- property binding syntax1 -->
+  <input [id]="myId" type="text" value="MangeshK">
+  <!-- property binding syntax2 -->
+  <input bind-id="myId" type="text" value="Syntax2">
+  
+  <!-- using interpolation -->
+  <input id="{{myId}}" type="text" value="MangeshK">
+
+<!-- Why property binding then: Interpolation can bind only String values.
+  There are HTML attributes which need boolean vlaues, e.g. disabled 
+-->
+<!-- By default disabled is false so element is always enabled -->
+<input [id]="myId" type="text" value="MangeshK" disabled>  
+<!-- below doenst work. Should be enabled. problem with boolean attibute. doent work with string values .
+Even {{false}} doent work. Hence we need property binding to bind such boolean attribute dynamically.
+-->
+<input [id]="myId" type="text" value="MangeshK" disabled="false">  
+<!-- works with property binding syntax below -->
+<input [id]="myId" type="text" value="MangeshK" [disabled]="false">
+<!-- Getting value from Class -->
+<input [id]="myId" type="text" value="MangeshK" [disabled]="isDisabled">
+
+
+
+</div>

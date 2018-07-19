@@ -1,0 +1,19 @@
+<div class="login-page">
+  <div class="form">
+    <form class="register-form">
+      <input type="text" placeholder="name"/>
+      <input type="password" placeholder="password"/>
+      <input type="text" placeholder="email address"/>
+      <button>create</button>
+      <p class="message">Already registered? <a href="#">Sign In</a></p>
+    </form>
+    <form class="login-form">
+      <input [(ngModel)]="username" type="text" name="username" placeholder="username"  />
+      <input [(ngModel)]="password" type="password" name="password" placeholder="password"  />
+      <!-- <button (click)="onClick($event)">login</button>{{loginMessage}} -->
+      <!-- <button type="submit" (click)="verifyLogin(username, password)">Login</button> -->
+      <button type="submit" (click)="onClickLogin()">Login</button>
+      <p class="message">Not registered? <a href="#">Create an account</a></p>
+    </form>
+  </div>
+</div>

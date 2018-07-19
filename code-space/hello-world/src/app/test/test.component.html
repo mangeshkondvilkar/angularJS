@@ -1,0 +1,46 @@
+
+<h2>Welcome Mangesh</h2>
+<h2>{{name}}</h2>
+<h2>{{name.length}}</h2>
+<h2>{{name.toUpperCase()}}</h2>
+<h2>{{5+5}}</h2>
+<h2>{{"Welcome " + name}}</h2>
+<h2>{{greetUser()}}</h2>
+<!-- Few things that you cant do with interpolation -->
+<!-- binding variables cannot contain assignment
+<h2>{{a = 2+2}}</h2>
+-->
+<!-- cannot use javascript global variables as window or screen
+<h2>{{window.location.href}}</h2>
+-->
+<h2>{{siteUrl}}</h2>
+
+<h2>PIPES PIPES</h2>
+<!-- PIPES : builtin operations to perform on Strings, numbers, etc -->
+<p>{{name | lowercase}}</p>
+<p>{{name | uppercase}}</p>
+<p>{{name | titlecase}}</p>
+<p>{{name | slice:3}}</p>
+<p>{{name | slice:3:8}}</p>
+
+<!-- Numbers -->
+<p>{{5.5678 | number:'1.2-3'}}</p>
+<p>{{5.5678 | number:'3.2-3'}}</p>
+<p>{{5.5678 | number:'3.1-2'}}</p>
+<!-- percentage pipe -->
+<p>{{0.25 | percent}}</p>
+<!-- currency pipe: default USD -->
+<p>{{100 | currency}}</p>
+<!-- | number:'3.0-0' -->
+<p>{{100 | currency: 'INR'}}</p> 
+<p>{{100 | currency: 'INR': 'code'}}</p> 
+
+<!-- date pipes -->
+<p>{{date}}</p> 
+<p>{{date | date:'short'}}</p> 
+<p>{{date | date:'shortDate'}}</p> 
+<p>{{date | date:'shortTime'}}</p> 
+<p>{{date | date:'medium'}}</p> 
+<p>{{date | date:'mediumDate'}}</p> 
+<p>{{date | date:'mediumTime'}}</p>
+ <!--similarly you have long, longdate, longtime  -->

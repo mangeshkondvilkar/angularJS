@@ -1,0 +1,407 @@
+============================ ANGULAR 5 by Codevolution on Youtube ============================ 
+- JS framework to build client side applications
+- great to build single page applications - 
+- SPAs - part of the page can be loaded async instead of rewriting with new page
+- Modular approach by desing
+- Reusable code
+- Quick development
+- Unit Testable client side code
+- Google + Microsoft -> product from Google team + makes use of Typescript from MS
+
+
+========= Ng History
+2010 - Angular JS
+2016 - Angular v2 - simply called angular
+2016 - Angualr v4 (Dev)
+2017 - Angular v5
+
+-- angular 6, 7 in 2018 - they would be backward compatible
+
+======= pre-requisites
+- HTMS, CSS, JS
+- Typescript
+
+-- Dev env
+- node
+- npm
+- Angular CLI
+- Text editor - VS Code
+
+1. install node JS -- nodejs.org - this will install npm as well
+	> node -v
+	> nom -v
+2. install angular CLI - cli.angular.io -> command line for angular dev
+	> npm install -g @angular/cli
+	-g : global
+	>ng -v
+3. Install some editor - VS Code
+
+========= DEV
+- create a new ngular project
+	> ng new hello-world
+- run and open the app in browser
+	> ng serve -o
+	> npm start -- same as above - internallyc calls >ng server -- check package.json
+
+========= Angular buidling blocks
+1. Modules:
+	- angular app is a clollection of many individula modules
+	- every module represent some feature in the application
+	- e.g. User module <---> Admin module
+	- Any ng app has aleast one module -- root module
+	- by convention it is called as AppModule
+	- Each module in turn made up of Components and Services
+	- Module --> [ Component + Service ]
+2. Components:
+	- e.g component for top navigation, 1 for sidebar and 1 for main content of or page
+	- Atleast one component -- root component --called as AppComponent by convetion
+	- all other components are nested inside root component
+	- Each component has a
+		-> HTML Template: represents the View in browser
+		-> Class: Controls the logic of the View
+3. Services:
+	- module also has Services which controls the Biz logic of the application
+
+- Summary:
+1. ng app - one or more modules
+2. Module - one or more components and services
+3. Component - HTML + Class (control the view logic)
+4. Service - Biz logic
+- module import/export code as and when required meaning modules interact and renders the View in the browser
+
+-- Imp files in project
+- package.json : similar to pom.xml - contains all dependencies and libs settings for project
+	- all pkgs gets installed when we call >ng new ... command
+	- all these pkgs gets installed under /node_modules folder
+- /src
+	- main.ts : entry point for our ng app
+	- /app : contains the module files
+- >ng serve : runs the app -> executes main.ts first -> from here boostrap AppModule(any root module)
+	-> from AppModule -- boostrap your components
+	-> when component runs 
+		- renders the .html
+		- makes use of .ts --> logic inside a class to form variables -- which will be used in View for data rendering
+
+========= Component
+Template -> View --> HTML
++ Class --> Code that supports View --> TypeScript --> Data and methods to control View logic
++ Metadata --> info based on which NG decides whether a class is a NG component or a regular class
+	   --> defined using Decorator --> function in typeScript
+	   --> basically an Annotation --> we have component decorator for a component class
+= NG Component
+
+---- Create a new component under your NG App
+> ng g c <some-name>
+-g: generate, c: component
+- import and Add new component in the app module declarations
+- and then use it under your app component anywhere with its selector name
+
+========= Interpolation
+- using the dynamic values within an html template in the form of vriables is called interpolation
+- define the variables in TS class -- value may be received from an API
+- use this variable in the template within double curly braces {{<var-name>}}
+- its a way to bind data from a TS class to a template/HTML
+- you can use the properties defined in a class, evaluate the expressions, call JS methods on properties, call TS class methods, etc
+- You cant assign a value to a variable, cant use global JS variables within the {{}}
+- It only works with String values
+
+========= Property Binding
+- You can use property binding and or interpolation for binding data in html
+- However due to the limitation of interpolation that it can only bind string values we need Property binding
+- property binding works for other values as well such as boolean values
+
+- HTML Attribute Vs DOM Property
+	- attribute is defined by HTML. Once initialised its value wont be changed
+	- property is defined by DOM
+	- Attributes initialize DOM properties and they are done. Attribute vlaue cannot change once they are initialised.
+	- property values however can change
+- Hence the getAttribute('') always returns the vlaue assigned once in HTML attribute,
+- However the .value property of DOM refers to the current value of the attribute.
+- Property binding means we are binding data to DOM property and not the HTML attibute value
+
+========= CSS Class Binding
+- binding CSS classes to HTML elements
+- useful when you want to dynamically add or remove certain CSS classes being applied on HTML elements
+
+styles: ['
+.text-success{
+	color: green;
+}
+.text-danger{
+	color: red;
+}
+.text-special{
+	font-style: italic;
+}
+']
+
+under HTML:
+<h2> test </h2>
+-- Diff ways to bind class property in html
+1. Normal: <h2 class="text-success">
+2. Ng Way
+-- in TS
+ public class successClass = "text-success";
+-- in html
+ <h2 [class]="successClass">
+-- you cannot use both ways at the same time as only class binding will work. Normal way will be overridden
+-- To apply multiple classes to an element you need to conditioanlly apply them as
+-- meaning apply a class based on a expression that evaluates to true or false
+in TS:
+	public hasError = true/false;
+in html:
+	<h2 [class.text-danger]="hasError">
+	<h2 [class.<style_class_name>]="<boolean_exp>">
+
+-- to apply mulitple classes Ng provides ngClass directive
+-- directives are Ng custom attributes which can be used in HTML
+in TS:
+	public isSpecical = true;
+	public messageClasses = {
+		"text-success": !this.hasError,
+		"text-danger": this.hasError,
+		"text-special": this.isSpecial,
+	}
+in HTML:
+	<h2 [ngClass]="messageClasses">
+
+========= Style binding
+-- apply inline styles to HTML elements
+-- pretty similar to class binding
+e.g
+-- <h2 [style.color]="'orange'">Hello</h2>
+-- conditional
+ <h2 [style.color]="hasError ? 'orange' : 'red'">Hello</h2>
+
+2. From TS
+public highlightColor = "green";
+ <h2 [style.color]="highlightColor">Hello 2</h2> 
+
+-- apply multiple styles using ngStyle directive -- similar to ngClass
+in TS:
+ public myStyles = {
+ 	color: "red",
+	fontStyle: "italic"
+ }
+in html:
+ <h2 [ngStyles]="myStyles">Hello 2</h2> 
+
+========= Event Binding
+-- prev Binding:
+	Data Binding in Class --> gets applied to HTML
+
+-- Now capturing user actions we need to direct data from HTML --> to Class
+-- this is done through Event Binding
+	Event Binding: event from HTML Template --> to class
+--
+in THML:
+ <button (click)="onClick()">
+in TS:
+ onClick(){
+	// some code
+	// alert	
+ }
+-- this is on click event calling a method from TS
+-- we can also set the TS variable to some value on click and then dispay that in HTML using {{variable}}
+
+-- We can pass the event info to TS in onClick() method --> $event
+-- onClick($event) --> special Ng variable that give all the info about the DOM event that was raised
+
+-- for small onclick code you can write inline in HTML
+<button (click)="tsvariable='Welcome message'">
+
+========= Template reference variable
+-- We need to get values entered by the User on UI to the class to perform further operations
+-- We do this by using template ref variable
+-- basically its a ref to the HTML element that refers to all its DOM properties
+-- e.g. <input #refVar type="text">
+-- here refVar is a template ref to the HTML input element. Its value can be passed further as refVar.value
+
+========= Two Way binding
+-- Data/property binding -- data flow from Class to template
+-- Event binding -- data flow from template to Class
+-- In case of forms we need a data flow from Class to Template and vuce versa.
+-- meaning the data between View and Model should be in sync.
+-- Data flows from Template(View) to class(model) and then Class back to template. This is called two way binding
+-- Achieved by using ngModel directive
+-- in HTML
+ <input [(ngModel)]="username" type="text">
+ {{username}}
+-- in Class
+public username="";
+
+-- When user keys in some text the same will be displayed right below it as soon as you type
+-- Need to import formModule under appModule to use ngModel directive
+
+========= Structural Directive
+-- Add or remove HTML elements from DOM
+-- 3 commmon built in Structual directive -- ngIf, ngSwitch, ngFor
+-- ngIf, ngSwitch -- conditionally render HTML elements
+-- ngFor --- render list of HTML elements
+
+-- if ngIf="false" on any html element -- then the element will not be even visible in the DOM - it will be removed
+-- differnt than css display=none, wherein the element is still visible in the DOM(inspect element) but hidden on UI
+-- syntax -- *ngIf="true/false"
+E.g. ng if else
+<h2 *ngIf="displayName"; else elseBlock>
+ Mangesh K
+</h2>
+<ng-template #elseBlock>
+ <h2>Name is hidden</h2>
+</ng-template>
+-- where displayName is a boolean property in class
+-- ng-template is a container for a HTML block of code which cna be displayed by referring to its template ref variable
+
+-- alternative clean syntax to separate the ngIf directive from the actual element -- above is inline
+<div *ngIf="displayName"; then thenBlock; else elseBlock></div>
+<ng-template #thenBlock>
+ <h2>Mangesh</h2>
+</ng-template>
+<ng-template #elseBlock>
+ <h2>Name is hidden</h2>
+</ng-template>
+
+========= ngSwitch
+-- switch in any programming language
+-- display html elements based on switch variable
+e.g.
+-- in class
+public color="red";
+--in html
+<div [ngSwitch]="color">
+ <div *ngSwitchCase="'red'">You picked red</div>
+ <div *ngSwitchCase="'blue'">You picked blue</div>
+ <div *ngSwitchCase="'green'">You picked green</div>
+ <div *ngSwitchDefault>Pick again</div>
+</div>
+
+========= ngFor
+-- render list elements
+-- similar to for loop in any programming language
+e.g.
+-- in class
+public colors = ["red", "blue", "green"];
+
+-- in html
+<div *ngFor="let color of colors"; index as i>
+ <h2>{{i}} {{color}}</h2>
+</div>
+-- you can use first, last, odd, even keywors to access specific elements
+<div *ngFor="let color of colors"; first as f> -- {{f}}
+<div *ngFor="let color of colors"; last as l> -- {{l}}
+<div *ngFor="let color of colors"; odd as o> -- {{o}}
+<div *ngFor="let color of colors"; even as e> -- {{e}}
+-- let is a keyword to define a variable
+
+========== Component Interactions *****************************
+-- seems to be very important to understand
+-- sending data across components -- from parent-->Child and vise versa
+-- achieved using @Input and @Output decorators
+
+-- Parent has a child component inside its HTML -- so sending from parent to child is easy using just @input decorator
+-- in case of child to parent its bit different -- need to use EventEmitter to achive this
+
+---- Parent (AppComponent) --> Child (TestComponent)
+-- in app Class -- public name = "mangesh";
+-- in app html -- <app-test [parantData]="name"></app-test>
+   -- name will flow to child as parentData
+-- in child class -- @Input public parentData;  / @Input('parentData') public name
+-- in child html -- {{"Hello" + parentData}} / {{"Hello" + name}}
+-- import Input from @core
+
+---- Child (TestComponent) --> Parent (AppComponent)
+-- child comp sends data to parent using Events
+-- in child class -- @Output() public childEvent = new EventEmmiter(); -- import Output, EventEmitter from core
+-- now fire this event on button click
+-- in child html -- <button (click)="fireEvent()">Send Event</button>
+-- Define fireEvent in child class -- fireEvent(){ this.childEvent.emmit('Hey Parent Component');}
+
+-- Capture this event in parent html
+<app-test (childEvent)="message=$event"></app-test>
+-- in parent class -- capture the message property
+public message = "";
+-- now use property in html as -- {{message}}
+-- so data('Hey parent component') flown from child to parent
+
+============ PIPES 
+-- allow us to transform data before displaying them in the view
+-- built in pipes --similar to utility methods which works on string, object, etc
+e.g.
+name = "Mangesh";
+message = "Welcome to my world";
+
+<h2> {{name | lowercase}} </h2> --> mangesh - lowercase pipe
+<h2> {{name | uppercase}} </h2> --> MANGESH - uppercase pipe
+<h2> {{message | titlecase}} </h2> --> Welcome To My World - titlecase pipe
+
+<h2> {{name | slice:3}} </h2> --> "gesh" - slice pipe - simila to substring
+-- you can specify the endIndex as well slice:2:5
+-- json pipe -- to convert the string to JSON representations
+
+-- Number pipes
+-- Date pipes
+-- pipes only changs data in the View, does not make changes to orginal value of the class property
+
+
+============ Dependency Injection ***********************************************
+-- DI is a design pattern in which a class receives its dependencies from external sources
+   rather than creating them itself.
+-- same concept as spring
+-- instead of creating with new, we pass the objects as params to constructor and set inside it
+-- meaning we create dependencies outside and pass it to a class for injection into it.
+
+-- Again as the no of dependencies grow its difficult to maintain the code, you need to create all those dependencies 
+   of the class before passing them to its constructor
+-- Ng provides DI as a framework similar to spring
+-- You have an ng Injector wherein you need to register all your dependencies.
+   And then get them from Injector whenever you need them
+   Similar to applicationContext in spring where it registers all beans and then we can get beans from context
+
+============ Services in Ng
+-- Why service
+	-- DRY -- do not repeat yourself
+	-- SRP -- single reponsibility principle
+-- A class with specific purpose
+-- share data -- we can ask Service to provide some data to be rendered on View
+-- implement app biz logic
+-- Exernal interaction -- DB connection Service
+-- Naming conventionL: .service.ts
+e.g EmployeeService
+   
+=========== Using a Service
+-- creating a service template using CLI
+-- ng g s <ServiceName>
+g - generate, s - service
+-- this creates a basic Ng service template which can return biz data
+-- Now register the service in Ng Injector
+-- many places to register the service - the place where you register matters as Ng has a Hierarchical DI 
+e.g.
+		AppModule
+		    |
+		AppComponent
+		    |
+	Component1	Component2
+
+-- Best way to register the servcie in AppModule so that it can be used in all its child components
+   viz AppComponent, Component1, Component2, and all their childs further
+-- To register use Providers metadata in appmodule
+
+-- all steps are:
+1. Define the service class -- ng g s myService
+2. Rejister with injector
+3. Use this service as dependecy in other components
+-- @Injectable on service is recommended by Ng -- its a Ng decorator
+-- it means this service may in turn have dependencies and those should be injected
+-- if no @Injectable means this is not a Ng service its plain TS class. So its good to have on a service class
+-- its like @Service on Service class
+
+-- Note on Component we dont need/provide @Injectable-- reason being it already has @Component 
+   which tells Ng that inject all dependencies automatically for component -- similar to spring @Component here
+
+
+============ HTTP and Observables
+https://www.youtube.com/watch?v=vj0kUzKOgGQ&list=PLC3y8-rFHvwhBRAgFinJR8KHIrCdTkZcZ&index=19
+
+
+
+
